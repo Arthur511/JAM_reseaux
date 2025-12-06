@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour {
 		Debug.Log("Starting");
 
 		PlayerIO.Authenticate(
-			"[Enter your game id here]",            //Your game id
+            "jam-reseau-dexw57cnn0uuc5jtfs6dg",            //Your game id
 			"public",                               //Your connection id
 			new Dictionary<string, string> {        //Authentication arguments
 				{ "userId", userid },

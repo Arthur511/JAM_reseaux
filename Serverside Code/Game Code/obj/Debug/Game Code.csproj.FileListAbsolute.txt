@@ -1,0 +1,9 @@
+C:\Users\natha\Documents\JAM_reseaux\Serverside Code\Game Code\bin\Debug\MushroomsUnity3DExample.dll
+C:\Users\natha\Documents\JAM_reseaux\Serverside Code\Game Code\bin\Debug\MushroomsUnity3DExample.pdb
+C:\Users\natha\Documents\JAM_reseaux\Serverside Code\Game Code\bin\Debug\Player.IO GameLibrary.dll
+C:\Users\natha\Documents\JAM_reseaux\Serverside Code\Game Code\bin\Debug\Player.IO GameLibrary.xml
+C:\Users\natha\Documents\JAM_reseaux\Serverside Code\Game Code\obj\Debug\Game Code.csproj.AssemblyReference.cache
+C:\Users\natha\Documents\JAM_reseaux\Serverside Code\Game Code\obj\Debug\Game Code.csproj.CoreCompileInputs.cache
+C:\Users\natha\Documents\JAM_reseaux\Serverside Code\Game Code\obj\Debug\Game Code.csproj.Up2Date
+C:\Users\natha\Documents\JAM_reseaux\Serverside Code\Game Code\obj\Debug\MushroomsUnity3DExample.dll
+C:\Users\natha\Documents\JAM_reseaux\Serverside Code\Game Code\obj\Debug\MushroomsUnity3DExample.pdb
