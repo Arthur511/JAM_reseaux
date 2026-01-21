@@ -94,6 +94,10 @@ public class GameManager : MonoBehaviour {
 
 	}
 
+
+	void displayDisconnectedPlayer() { 
+	}
+
 	void handlemessage(object sender, Message m) {
 		msgList.Add(m);
 	}
@@ -135,12 +139,6 @@ public class GameManager : MonoBehaviour {
 					// create a tween between current and target position
 					iTween.MoveTo(hvplayer, iTween.Hash("x", m.GetFloat(1), "z", m.GetFloat(2), "onstart", "startwalk", "oncomplete", "stopharvest", "time", distance, "delay", 0, "easetype", iTween.EaseType.linear));
 					break;
-				case "Picked":
-					// remove the object when it's picked up
-					GameObject removetoad = GameObject.Find("Toad" + m.GetInt(0));
-					Destroy(removetoad);
-
-					break;
 				case "Chat":
 					if (m.GetString(0) != "Server") {
 						GameObject chatplayer = GameObject.Find(m.GetString(0));
@@ -154,16 +152,6 @@ public class GameManager : MonoBehaviour {
 					// remove characters from the scene when they leave
 					GameObject playerd = GameObject.Find(m.GetString(0));
 					Destroy(playerd);
-					break;
-				case "Toad":
-					// adds a toadstool to the scene
-					GameObject newtoad = GameObject.Instantiate(ToadPrefab) as GameObject;
-					newtoad.transform.position = new Vector3(m.GetFloat(1), 0.1f, m.GetFloat(2));
-					newtoad.name = "Toad" + m.GetInt(0);
-					break;
-				case "ToadCount":
-					// updates how many toads have been picked up by the player
-					toadspicked = m.GetInt(0);
 					break;
 			}
 		}
