@@ -22,7 +22,6 @@ public class ChatEntry {
 
 public class GameManager : MonoBehaviour {
 
-	public GameObject target;
 	public GameObject PlayerPrefab;
 	public GameObject ToadPrefab;
 	private Connection pioconnection;
@@ -37,68 +36,83 @@ public class GameManager : MonoBehaviour {
 	private int toadspicked = 0;
 	private string infomsg = "";
 
-	void Start() {
-		Application.runInBackground = true;
+	public GameObject target;
+    private string userid;
 
-		// Create a random userid 
-		System.Random random = new System.Random();
-		string userid = "Guest" + random.Next(0, 10000);
 
-		Debug.Log("Starting");
+    void Start()
+    {
+        Application.runInBackground = true;
 
-		PlayerIO.Authenticate(
+        // Create a random userid 
+        System.Random random = new System.Random();
+        string userid = "Guest" + random.Next(0, 10000);
+
+        Debug.Log("Starting");
+
+        PlayerIO.Authenticate(
             "jam-reseau-dexw57cnn0uuc5jtfs6dg",            //Your game id
-			"public",                               //Your connection id
-			new Dictionary<string, string> {        //Authentication arguments
+            "public",                               //Your connection id
+            new Dictionary<string, string> {        //Authentication arguments
 				{ "userId", userid },
-			},
-			null,                                   //PlayerInsight segments
-			delegate (Client client) {
-				Debug.Log("Successfully connected to Player.IO");
-				infomsg = "Successfully connected to Player.IO";
+            },
+            null,                                   //PlayerInsight segments
+            CreateRoom,
+            ErrorConnect
+        );
 
-				target.transform.Find("NameTag").GetComponent<TextMesh>().text = userid;
-				target.transform.name = userid;
+    }
 
-				Debug.Log("Create ServerEndpoint");
-				// Comment out the line below to use the live servers instead of your development server
-				client.Multiplayer.DevelopmentServer = new ServerEndpoint("localhost", 8184);
+    #region ForStart
+    void CreateRoom(Client client)
+    {
+        Debug.Log("Successfully connected to Player.IO");
+        infomsg = "Successfully connected to Player.IO";
 
-				Debug.Log("CreateJoinRoom");
-				//Create or join the room 
-				client.Multiplayer.CreateJoinRoom(
-					"UnityDemoRoom",                    //Room id. If set to null a random roomid is used
-					"UnityMushrooms",                   //The room type started on the server
-					true,                               //Should the room be visible in the lobby?
-					null,
-					null,
-					delegate (Connection connection) {
-						Debug.Log("Joined Room.");
-						infomsg = "Joined Room.";
-						// We successfully joined a room so set up the message handler
-						pioconnection = connection;
-						pioconnection.OnMessage += handlemessage;
-						joinedroom = true;
-					},
-					delegate (PlayerIOError error) {
-						Debug.Log("Error Joining Room: " + error.ToString());
-						infomsg = error.ToString();
-					}
-				);
-			},
-			delegate (PlayerIOError error) {
-				Debug.Log("Error connecting: " + error.ToString());
-				infomsg = error.ToString();
-			}
-		);
+        target.transform.Find("NameTag").GetComponent<TextMesh>().text = userid;
+        target.transform.name = userid;
 
-	}
+        Debug.Log("Create ServerEndpoint");
+        // Comment out the line below to use the live servers instead of your development server
+        client.Multiplayer.DevelopmentServer = new ServerEndpoint("localhost", 8184);
 
+        Debug.Log("CreateJoinRoom");
+        //Create or join the room 
+        client.Multiplayer.CreateJoinRoom(
+            "UnityDemoRoom",                    //Room id. If set to null a random roomid is used
+            "UnityMushrooms",                   //The room type started on the server
+            true,                               //Should the room be visible in the lobby?
+            null,
+            null,
+            JoinedTheRoom,
+            ErrorJoining
+        );
+    }
 
-	void displayDisconnectedPlayer() { 
-	}
+    void JoinedTheRoom(Connection connection)
+    {
+        Debug.Log("Joined Room.");
+        infomsg = "Joined Room.";
+        // We successfully joined a room so set up the message handler
+        pioconnection = connection;
+        pioconnection.OnMessage += handlemessage;
+        joinedroom = true;
+    }
 
-	void handlemessage(object sender, Message m) {
+    void ErrorJoining(PlayerIOError error)
+    {
+        Debug.Log("Error connecting: " + error.ToString());
+        infomsg = error.ToString();
+    }
+
+    void ErrorConnect(PlayerIOError error)
+    {
+        Debug.Log("Error connecting: " + error.ToString());
+        infomsg = error.ToString();
+    }
+    #endregion
+
+    void handlemessage(object sender, Message m) {
 		msgList.Add(m);
 	}
 
